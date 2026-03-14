@@ -77,7 +77,3 @@ A complete toolkit for working with Dead Rising 2 archives and textures. It lets
 
 **Detected File Types** – Recognizes metadata files (Type 4), textures (Type 16), geometry models (Type 32), and nested BIG archives (Type 256).
 
-
-
-**Build Features** – Distributed as a single standalone executable with no Python installation required, runs on any Windows PC, includes embedded tools and resources, and performs automatic cleanup during builds.
-
