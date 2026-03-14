@@ -1,9 +1,4 @@
 # dead-rising-2-toolkit
-this tool is made for dead rising 2 game only
-Here’s a **more natural / human way to present it on Discord**, without emojis and with **each feature summarized in one clean line** so people can skim it easily.
-
-
-
 **ULTIMATE DR2 BIG TOOL**
 
 A complete toolkit for working with Dead Rising 2 archives and textures. It lets you open, explore, extract, replace, and rebuild BIG files while also previewing textures and file data in one place.
@@ -86,6 +81,3 @@ A complete toolkit for working with Dead Rising 2 archives and textures. It lets
 
 **Build Features** – Distributed as a single standalone executable with no Python installation required, runs on any Windows PC, includes embedded tools and resources, and performs automatic cleanup during builds.
 
-
-
-If you want, I can also make a **shorter “Discord release post” version** that modding servers usually prefer (about **8–10 lines instead of this long feature list**).
