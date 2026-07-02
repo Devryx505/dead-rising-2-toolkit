@@ -7,7 +7,6 @@
 ![Version](https://img.shields.io/badge/version-4.0.0-blue?style=flat-square)
 ![Blender](https://img.shields.io/badge/blender-3.2%2B-orange?style=flat-square&logo=blender&logoColor=white)
 ![Status](https://img.shields.io/badge/status-WIP-yellow?style=flat-square)
-![License](https://img.shields.io/badge/license-unlicensed-lightgrey?style=flat-square)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-informational?style=flat-square)
 
 </div>
