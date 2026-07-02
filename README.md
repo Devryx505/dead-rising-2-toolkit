@@ -89,7 +89,7 @@ If you hit something not listed here, please open an issue with the object's geo
 
 ##  Changelog
 
-### v1.14.0
+### v1.15.0
 - **Hard-blocked the 65,535 vertex limit.** Previously this was only a console print; exceeding it now aborts injection for that specific mesh before anything is written, and the failure is surfaced in Blender's report popup, not just the console.
 - **Added a large-growth warning.** If an injected mesh grows 5x or more over the vertex count of the asset it's replacing, a warning is now logged with before/after counts and a suggested range to try instead. This does not block export, some slots can take more headroom than others, but it flags the most common real-world cause of crashes that occur well under the 65,535 ceiling.
 - Minor internal cleanup around mesh validation reporting.
