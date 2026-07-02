@@ -121,7 +121,6 @@ This tool is for modding your own local game files. It is not affiliated with or
 # Dead Rising 2 / Off the Record Toolkit
 
 ![Platform](https://img.shields.io/badge/platform-Windows-0a0c10?style=for-the-badge&logo=windows&logoColor=white)
-![Made with](https://img.shields.io/badge/made%20with-Python%20%2B%20PyQt6-2a6cdc?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/status-active-2a8a4a?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-Personal%20Use-c47a1e?style=for-the-badge)
 
