@@ -124,7 +124,7 @@ This tool is for modding your own local game files. It is not affiliated with or
 ![Status](https://img.shields.io/badge/status-active-2a8a4a?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-Personal%20Use-c47a1e?style=for-the-badge)
 
-![Dead Rising 2 Toolkit](https://githubusercontent.com)
+[Dead Rising 2 Toolkit Image](https://github.com/Devryx505/dead-rising-2-toolkit/blob/6a6e60ba9d9f23169b775e0aca8d72c3502ab657/dead.png)
 
 
 A desktop tool for digging into **Dead Rising 2** and **Dead Rising 2: Off the Record** game files. Browse `.big` archives, preview textures, and get your files back out in a format you can actually work with  all from one window
