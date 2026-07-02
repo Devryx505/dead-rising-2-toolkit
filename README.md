@@ -112,3 +112,60 @@ This is a hobbyist reverse-engineering project, not a finished product. Pull req
 ##  Disclaimer
 
 This tool is for modding your own local game files. It is not affiliated with or endorsed by Capcom. Back up your files. Use at your own risk.
+
+
+
+
+
+
+# Dead Rising 2 / Off the Record Toolkit
+
+![Platform](https://img.shields.io/badge/platform-Windows-0a0c10?style=for-the-badge&logo=windows&logoColor=white)
+![Made with](https://img.shields.io/badge/made%20with-Python%20%2B%20PyQt6-2a6cdc?style=for-the-badge&logo=python&logoColor=white)
+![Status](https://img.shields.io/badge/status-active-2a8a4a?style=for-the-badge)
+![License](https://img.shields.io/badge/license-Personal%20Use-c47a1e?style=for-the-badge)
+
+A desktop tool for digging into **Dead Rising 2** and **Dead Rising 2: Off the Record** game files. Browse `.big` archives, preview textures, and get your files back out in a format you can actually work with  all from one window
+
+This started as a personal project to make modding DR2/OTR less painful, and turned into something a bit more complete. It's still growing
+
+---
+
+## What it does
+
+- **Browse `.big` archives**  open them up and see everything inside in a clean tree view instead of a wall of hex.
+- **Unpack files**  pull contents out to a real folder on disk, ready to edit.
+- **Repack folders**  take your edited folder and turn it back into a proper `.big` the game will actually load.
+- **Recursive unpack/repack**  handles nested containers (`.tex` inside `.big`, and so on) automatically, so you're not manually chasing down every layer yourself.
+- **Texture preview**  `.tex`/`.dds` textures render right in the app, so you can check your edits without alt-tabbing into another program every five seconds.
+- **Batch operations** — unpack or repack multiple archives in one go instead of babysitting one file at a time.
+- **Drag and drop**  drop a `.big` or `.tex` straight onto the window.
+- **Dark UI**  easy on the eyes for long modding sessions.
+
+## Getting started
+
+1. Grab the latest `.exe` from the Releases page.
+2. Run it  no install, no dependencies to chase down.
+3. Drag in a `.big` or `.tex` file, or use the file picker.
+4. Unpack, edit, repack. That's the whole loop.
+
+## Notes
+
+- Repacked archives are built to match the structure the game expects, so a folder unpacked with this tool can be repacked directly with it  no extra prep needed.
+- Works with both **Dead Rising 2** and **Dead Rising 2: Off the Record** archives.
+- This is a hobby tool made in spare time, so expect occasional rough edges. Bug reports and feedback are always welcome.
+
+## Credits
+
+Big thanks to the people who supported and inspired this project along the way:
+
+- **Dodylectable**
+- **UndeadFrankie**
+- **𝗦𝗧𝗶𝗣𝟬**
+- **Melina**
+
+This tool wouldn't be what it is without their support, feedback, and inspiration. Appreciate you all.
+
+---
+
+*Made for the DR2 modding community, by someone who's still zombie-bashing years later.*
