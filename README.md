@@ -45,7 +45,7 @@ If you're not comfortable losing a save file or reinstalling assets, don't test 
 
 - Import character/prop meshes from a `.big` file into Blender for editing
 - Inject edited or replacement meshes back into a `.big` file
-- Handles multiple internal geometry layouts (standard, combined/multi-mesh, weapon, corpse/ragdoll, vehicle split-stream, and more, see `constants.py` for the full list)
+- Handles multiple internal geometry layouts (standard, combined/multi-mesh, weapon, corpse/ragdoll, vehicle split-stream, and more.
 - Automatic backup of the target `.big` file before writing
 - Mesh validation pass before injection (NaN/Inf checks, degenerate faces, out-of-range indices, bone range sanity, vertex count limits)
 - Optional collision shape injection (non-Havok-compiled fallback, flagged separately when used)
