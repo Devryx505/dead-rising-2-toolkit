@@ -107,7 +107,9 @@ If you're working with an existing pipeline built around v3.2 behavior (e.g. scr
 
 ##  Contributing
 
-This is a hobbyist reverse-engineering project, not a finished product. Pull requests, especially around the less-tested geo types (weapon/prop/vehicle combined buffers) or Havok collision compilation, are welcome. If you find a mesh type that doesn't inject correctly, please include the object's `DR2_GeoType` value and the raw console output, that's usually enough to trace the layout.
+This is an ongoing, community driven reverse engineering project and is currently a work in progress. Contributions are highly encouraged particularly regarding Havok collision compilation and less tested geometry types, such as combined buffers for weapons, props, and vehicles.
+
+If you encounter a mesh type that fails to inject properly, please submit a bug report containing the object's DR2_GeoType value along with the raw console output. This data is typically sufficient for us to isolate and trace the structural layout."
 
 ##  Disclaimer
 
