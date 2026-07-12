@@ -166,6 +166,7 @@ Big thanks to the people who supported and inspired this project along the way:
 - **UndeadFrankie**
 - **𝗦𝗧𝗶𝗣𝟬**
 - **Melina**
+- **Gibbed**
 
 This tool wouldn't be what it is without their support, feedback, and inspiration. Appreciate you all.
 
