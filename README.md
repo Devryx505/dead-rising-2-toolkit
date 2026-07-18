@@ -75,6 +75,8 @@ Requires Blender 4.0.
 * Collision injection is best effort where it's supported. Reshaped or new collision shapes use an approximate fallback and are flagged when used, existing untouched collision is left alone.
 * Locators injection got added as well.
 * DR2 haas limit to 65,535 vertex per mesh
+* DR CW CZ are only import - also if u use TOOLBOX to export glb one of xbox u will have mouth issue yeah i didnt fix it maybe in the future but you can delete the skeleton or use theh addon  cuz also in the animation built in it will have that mouth issue in 1 animation
+  
 
 If you run into something not covered here, please open an issue with details on the game, the object involved, before and after vertex/triangle counts, and the console output from injection.
 
