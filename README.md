@@ -102,7 +102,7 @@ This tool is for modding your own local game files. It is not affiliated with or
 ![Status](https://img.shields.io/badge/status-active-2a8a4a?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-Personal%20Use-c47a1e?style=for-the-badge)
 
-[![Dead Rising Toolbox](dead.png)](dead.png)
+[![Dead Rising Toolbox](DRTB.png)](DRTB.png)
 
 A desktop app for working with Dead Rising game files, covering Dead Rising 2, Dead Rising 3, and Dead Rising 4 in one window. Browse archives, preview textures, edit data files, and get your files out in a format you can actually work with. Packaged as a standalone Windows executable, no Python or extra setup required.
 
