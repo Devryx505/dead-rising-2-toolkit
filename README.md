@@ -13,111 +13,104 @@
 
 ---
 
-A Blender addon for pulling `.big` character and prop meshes out of Dead Rising 2 / Off the Record and injecting your own edited or replacement meshes back in, without needing to touch the raw container format by hand.
+A Blender addon that lets you pull character and prop meshes out of Dead Rising 2 and Off the Record, edit them, and inject them back in, without having to touch the game's file formats by hand.
 
-Started as a personal modding tool, shared here in case it's useful to anyone else digging into these files. It is **not** a finished, bulletproof tool, see the Warning section below before you sink hours into a mesh.
-
----
-
-## Warning, Read This First
-
-<table>
-<tr>
-<td>
-
-This addon is **still a work in progress**. Some things to know before you use it:
-
-- **Not every mesh will load correctly.** The `.big` / `persistent.big` format used by this game has several different internal mesh layouts (standard skinned meshes, combined multi-mesh buffers, weapon/prop types, vehicle split-streams, ragdoll/corpse meshes, and a few oddball variants). This addon tries to detect and handle all of them, but detection isn't always right, and some geo types are still handled on a best-effort basis.
-- **There is a hard 65,535-vertex-per-mesh limit.** This is not a limitation of the addon, it's baked into the game's compiled renderer, which uses 16-bit index buffers. Exceeding this makes indices wrap around and corrupt the mesh, which reliably crashes the game on load. The addon refuses to export a mesh over this limit as of v4.0.
-- **Staying under 65,535 verts does not guarantee it'll work.** Some individual asset slots (a hat, a piece of facewear, etc.) have their own much smaller preallocated buffer in the engine, sized around what the original asset needed. Pushing a mesh several times larger than the original, even if it's nowhere near the 16-bit ceiling, can still crash the game on load.
-- **Always back up your `.big` files before injecting.** The exporter has a "Make Backup" option on by default, leave it on.
-- **Bone weights, UVs, and tangents are re-derived from your Blender mesh on export.** The exporter flags zero-length normals/tangents, NaNs, and bad weight sums in the console (`[DR2OTR][VALIDATE]`), read that output if something looks wrong in-game.
-
-If you're not comfortable losing a save file or reinstalling assets, don't test injected meshes on your only save.
-
-</td>
-</tr>
-</table>
+It started as a personal modding tool and is shared here in case it helps anyone else working on these games. It's not a finished, bulletproof tool, so please read the warning section before spending hours on a mesh.
 
 ---
 
-##  Features
+## Read This First
 
-- Import character/prop meshes from a `.big` file into Blender for editing
-- Inject edited or replacement meshes back into a `.big` file
-- Handles multiple internal geometry layouts (standard, combined/multi-mesh, weapon, corpse/ragdoll, vehicle split-stream, and more.
-- Automatic backup of the target `.big` file before writing
-- Mesh validation pass before injection (NaN/Inf checks, degenerate faces, out-of-range indices, bone range sanity, vertex count limits)
-- Optional collision shape injection (non-Havok-compiled fallback, flagged separately when used)
-- Optional material ID override on injection
+This addon is still a work in progress. A few things worth knowing before you dive in:
+
+* Not every mesh will import or inject cleanly. The game uses several different internal mesh layouts depending on the type of object (characters, props, weapons, vehicles, and a few uncommon variants), and support across all of them isn't equally solid yet.
+* There's a hard vertex limit per mesh, enforced by the addon since v4.0. Going over it will block the export rather than produce a broken file.
+* Staying under that limit doesn't guarantee success. Some individual item slots have much smaller space reserved for them in the game itself, so a mesh that's technically within range can still cause problems if it's pushed far beyond the size of what it's replacing.
+* Always keep the "Make Backup" option enabled when injecting. It's on by default for a reason.
+* Bone weights, UVs, and tangents are recalculated from your Blender mesh on export. If something looks off in game, check Blender's console output after injecting, the addon prints warnings there.
+
+If you're not comfortable risking a save file or reinstalling assets, don't test on your only save.
 
 ---
 
-##  Installation
+## Features
 
-1. Download the addon `.zip` (do not unzip it)
-2. In Blender: `Edit > Preferences > Add-ons > Install...`
-3. Select the `.zip` and enable **"Dead Rising 2 & Off the Record"** in the addon list
-4. A new panel appears in the `View3D` sidebar under the **DR2:OTR** tab
+* Import character and prop meshes from the game's archive files into Blender
+* Inject edited or replacement meshes back into those archives
+* Support for multiple internal mesh types, including characters, props, weapons, and vehicles
+* Automatic backup of the target file before writing
+* A validation pass before injection that checks for common mesh problems
+* Optional collision shape injection (best effort, clearly flagged when used)
+* Optional material ID override on injection
+
+---
+
+## Installation
+
+1. Download the addon `.zip` (don't unzip it)
+2. In Blender, go to `Edit > Preferences > Add-ons > Install...`
+3. Select the `.zip` and enable it in the addon list
+4. A new panel will appear in the `View3D` sidebar under the DR2:OTR tab
 
 Requires Blender 3.2 or newer.
 
 ---
 
-##  Basic Usage
+## Basic Usage
 
-1. **Import**: use the DR2:OTR panel to import meshes from a `.big` file into your scene
-2. **Edit**: modify the mesh in Blender as normal, sculpt, remesh, retopo, whatever your workflow needs
-3. **Fix Mesh** (recommended before export/sometimes not well i dont know i add it to test): run the "Fix Mesh" operator to clean up common issues (normals, degenerate geometry) before injecting
-4. **Export/Inject**: select your edited mesh object(s) and use "Inject into BIG", pointing it at the target `.big` file, keep "Make Backup" enabled
-5. Check the Blender **console** after injecting, validation warnings and vertex-growth warnings are printed there even if the operator reports success
-
----
-
-##  Known Issues
-
-- **Not all geo types are equally well-tested.** Standard skinned meshes (heads, hats, facewear, most clothing) are the most reliable path. Combined/multi-mesh buffers (weapons, some props, vehicles, ragdolls) are supported but have more edge cases in how their `CommandBuffer` slice data gets patched, if injection prints a warning about an unrecognized `CommandBuffer` size for one of these types, treat the result as unverified.
-- **No hard guarantee against per-slot buffer overflows.** The addon can't know the real preallocated buffer size for every individual asset slot in the game, only the universal 16-bit format ceiling. Large vertex-count increases over the original asset (roughly 5x or more) are flagged as a warning, but this is a heuristic, not a guarantee of safety.
-- **Collision injection is best-effort.** Reshaped or newly added collision shapes don't get properly Havok-compiled data, they get an approximate fallback and are explicitly flagged in the report when used. Existing, unmodified collision shapes are left untouched and are safe.
-- **Bounding box is not currently recalculated on injection.** If your mesh's dimensions differ significantly from the original, the stored bounding box will be stale. Likely affects culling more than anything else, hasn't been fully characterized.
-- **LOD groups**: if a mesh has multiple LOD groups in its `VBHeader`, only the highest-vertex-count group is currently written to; other LOD levels are left as-is.
-
-If you hit something not listed here, please open an issue with the object's geo type (if known), original vs. new vertex/triangle counts, and the console output from injection.
+1. **Import** a mesh from the archive using the DR2:OTR panel
+2. **Edit** it in Blender however your workflow needs
+3. Optionally run **Fix Mesh** before exporting to clean up common issues
+4. Select your edited object and use **Inject into BIG**, pointing it at the target file, and keep backups enabled
+5. Check Blender's console after injecting. Warnings are printed there even when the operator reports success
 
 ---
 
-##  Changelog
+## Known Issues
+
+* Standard character meshes are the most reliable path right now. More complex mesh types (weapons, some props, vehicles) work but are less thoroughly tested, and injection will warn you if it hits something unfamiliar.
+* The addon can't guarantee a mesh will fit a specific item slot's memory, only that it's within the game's overall format limits. Large increases in vertex count compared to the original are flagged, but that's a heuristic, not a guarantee.
+* Collision injection is best effort. Reshaped or new collision shapes use an approximate fallback and are flagged when used, existing untouched collision is left alone.
+* The stored bounding box isn't recalculated after injection, so meshes that differ a lot in size from the original may render or cull incorrectly.
+* Only the highest detail LOD level is currently updated on meshes that have more than one.
+
+If you run into something not covered here, please open an issue with details on the object involved, before and after vertex/triangle counts, and the console output from injection.
+
+---
+
+## Changelog
 
 ### v1.15.0
-- **Hard-blocked the 65,535 vertex limit.** Previously this was only a console print; exceeding it now aborts injection for that specific mesh before anything is written, and the failure is surfaced in Blender's report popup, not just the console.
-- **Added a large-growth warning.** If an injected mesh grows 5x or more over the vertex count of the asset it's replacing, a warning is now logged with before/after counts and a suggested range to try instead. This does not block export, some slots can take more headroom than others, but it flags the most common real-world cause of crashes that occur well under the 65,535 ceiling.
-- Minor internal cleanup around mesh validation reporting.
+* The vertex limit is now enforced at export time instead of just being logged, so an oversized mesh is blocked before anything is written.
+* Added a warning for large vertex count increases relative to the original mesh, to help catch a common cause of in game crashes early.
+* Minor cleanup to validation reporting.
 
 ### v1.14.0
-- Last stable release before the export-safety pass above.
-- Multi-geo-type detection and injection (standard, combined, weapon, corpse/ragdoll, vehicle split-stream, prop-multi, novelty variants)
-- Mesh validation pass (NaN/Inf, degenerate faces, out-of-range indices, bone range checks), console-only, non-blocking
-- Optional best-effort collision injection
-- Automatic `.bak` backups on injection
+* Last release before the export safety improvements above.
+* Detection and injection support across multiple mesh types (characters, props, weapons, vehicles, and more)
+* Non blocking mesh validation pass with console output
+* Optional best effort collision injection
+* Automatic backups on injection
 
-If you're working with an existing pipeline built around v3.2 behavior (e.g. scripts relying on injection never being blocked), note that v4.0 actively refuses to write a mesh over the hard limit rather than silently producing a broken file.
+If you're working with a pipeline built around older versions where exports were never blocked, note that this version will refuse to write a mesh that exceeds the hard limit rather than silently producing a broken file.
 
 ---
 
-##  Contributing
+## Contributing
 
-This is an ongoing, community driven reverse engineering project and is currently a work in progress. Contributions are highly encouraged particularly regarding Havok collision compilation and less tested geometry types, such as combined buffers for weapons, props, and vehicles.
+This is an ongoing, community driven project and still very much a work in progress. Contributions are welcome, especially around collision handling and the less tested mesh types.
 
-If you encounter a mesh type that fails to inject properly, please submit a bug report containing the object's DR2_GeoType value along with the raw console output. This data is typically sufficient for us to isolate and trace the structural layout."
+If you run into a mesh that won't inject properly, a bug report with the object type and the console output is usually enough to track down the issue.
 
-##  Disclaimer
+## Disclaimer
 
-This tool is for modding your own local game files. It is not affiliated with or endorsed by Capcom. Back up your files. Use at your own risk.
+This tool is for modding your own local game files. It is not affiliated with or endorsed by Capcom. Back up your files and use at your own risk.
 
+<br>
 
+---
 
-
-
+<br>
 
 # Dead Rising 2 / Off the Record Toolkit
 
@@ -127,49 +120,48 @@ This tool is for modding your own local game files. It is not affiliated with or
 
 [![Dead Rising 2 Toolkit](dead.png)](dead.png)
 
+A desktop app for working with Dead Rising 2 and Dead Rising 2: Off the Record game files. Browse archives, preview textures, and get your files out in a format you can actually work with, all from one window. Now packaged as a standalone Windows executable, no Python or extra setup required.
 
-A desktop tool for digging into **Dead Rising 2** and **Dead Rising 2: Off the Record** game files. Browse `.big` archives, preview textures, and get your files back out in a format you can actually work with  all from one window
-
-This started as a personal project to make modding DR2/OTR less painful, and turned into something a bit more complete. It's still growing
+This started as a personal project to make modding these games less painful, and it's grown into something a lot more complete. Still actively developed.
 
 ---
 
 ## What it does
 
-- **Browse `.big` archives**  open them up and see everything inside in a clean tree view instead of a wall of hex.
-- **Unpack files**  pull contents out to a real folder on disk, ready to edit.
-- **Repack folders**  take your edited folder and turn it back into a proper `.big` the game will actually load.
-- **Recursive unpack/repack**  handles nested containers (`.tex` inside `.big`, and so on) automatically, so you're not manually chasing down every layer yourself.
-- **Texture preview**  `.tex`/`.dds` textures render right in the app, so you can check your edits without alt-tabbing into another program every five seconds.
-- **Batch operations** — unpack or repack multiple archives in one go instead of babysitting one file at a time.
-- **Drag and drop**  drop a `.big` or `.tex` straight onto the window.
-- **Dark UI**  easy on the eyes for long modding sessions.
+* **Browse archives**, open them up and see everything inside in a clean tree view instead of raw hex
+* **Unpack files** to a real folder on disk, ready to edit
+* **Repack folders** back into a proper archive the game will load
+* **Handle nested containers** automatically, so you're not manually chasing down every layer yourself
+* **Preview textures** right in the app, no need to alt tab into another program to check your work
+* **Batch operations**, unpack or repack multiple archives at once instead of doing them one by one
+* **Drag and drop** a file straight onto the window to open it
+* **Dark UI** that's easy on the eyes for long modding sessions
 
 ## Getting started
 
-1. Grab the latest `.exe` from the Releases page.
-2. Run it  no install, no dependencies to chase down.
-3. Drag in a `.big` or `.tex` file, or use the file picker.
-4. Unpack, edit, repack. That's the whole loop.
+1. Grab the latest `.exe` from the Releases page
+2. Run it, no install and nothing else to set up
+3. Drag in a file, or use the file picker
+4. Unpack, edit, repack. That's the whole loop
 
 ## Notes
 
-- Repacked archives are built to match the structure the game expects, so a folder unpacked with this tool can be repacked directly with it  no extra prep needed.
-- Works with both **Dead Rising 2** and **Dead Rising 2: Off the Record** archives.
-- This is a hobby tool made in spare time, so expect occasional rough edges. Bug reports and feedback are always welcome.
+* Archives repacked with this tool match the structure the game expects, so anything unpacked here can be repacked here without extra prep
+* Works with both Dead Rising 2 and Dead Rising 2: Off the Record
+* This is a hobby project built in spare time, so expect the occasional rough edge. Bug reports and feedback are always welcome
 
 ## Credits
 
 Big thanks to the people who supported and inspired this project along the way:
 
-- **Dodylectable**
-- **UndeadFrankie**
-- **𝗦𝗧𝗶𝗣𝟬**
-- **Melina**
-- **Gibbed**
+* **Dodylectable**
+* **UndeadFrankie**
+* **𝗦𝗧𝗶𝗣𝟬**
+* **Melina**
+* **Gibbed**
 
 This tool wouldn't be what it is without their support, feedback, and inspiration. Appreciate you all.
 
 ---
 
-*Made for the DR2 modding community, by someone who's still zombie-bashing years later.*
+*Made for the DR2 modding community, by someone who's still zombie bashing years later.*
